@@ -8,6 +8,11 @@ require_relative "dama"
 require_relative "rey"
 
 class Tablero	
+	
+	def self.columna(posicion)		
+		('a'..'h').select { |fila| fila != posicion[0] }.map { |fila| "#{fila}#{posicion[1]}" }
+	end
+
 	def initialize
 		@piezas = {}
 		vaciar
@@ -85,7 +90,56 @@ class Tablero
 		end
 	end
 
-	def self.columna(posicion)		
+	def columna(posicion)		
 		('a'..'h').select { |fila| fila != posicion[0] }.map { |fila| "#{fila}#{posicion[1]}" }
+	end
+
+	def columna_min(posicion)	
+	fila_izq = posicion[0].ord.pred.chr	
+		('a'..'h').select { |fila| fila != posicion[0] }.map { |fila| "#{fila}#{posicion[1]}" }.select {|pos| pos[0] == posicion[0].next || pos[0] == fila_izq }
+	end
+
+	def fila(posicion)
+		(1..8).reject { |col| (col.to_s == posicion[1]) }.map { |col| "#{posicion[0]}#{col}" }
+	end
+
+	def fila_min(posicion)
+		(1..8).reject { |col| (col.to_s == posicion[1]) }.map { |col| "#{posicion[0]}#{col}" }.select {|pos| pos[1].to_i == posicion[1].to_i + 1 || pos[1].to_i == posicion[1].to_i - 1 }
+	end
+
+	def diag_der_sup(posicion)
+		(posicion[0].next..'h').map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1}" }.select {|pos| pos[1].to_i <= 8}
+	end
+
+	def diag_der_sup_min(posicion)
+		(posicion[0].next..'h').map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1}" }.select {|pos| pos[1].to_i == posicion[1].to_i + 1 && pos[1].to_i <= 8}
+	end
+
+	def diag_der_inf(posicion)
+		(posicion[0].next..'h').map.with_index { |fila, i|  "#{fila}#{posicion[1].to_i - i - 1}" }.select {|pos| pos[1].to_i >= 1}
+	end
+
+	def diag_der_inf_min(posicion)
+		(posicion[0].next..'h').map.with_index { |fila, i|  "#{fila}#{posicion[1].to_i - i - 1}" }.select {|pos| pos[1].to_i == posicion[1].to_i - 1 && pos[1].to_i >= 1}
+	end
+
+	def diag_izq_sup(posicion)
+		fila_izq = posicion[0].ord.pred.chr
+			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1 }" }.select {|pos| pos[1].to_i <= 8}
+	end
+
+	def diag_izq_sup_min(posicion)
+		fila_izq = posicion[0].ord.pred.chr
+			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1 }" }.select {|pos| pos[1].to_i == posicion[1].to_i + 1 && pos[1].to_i <= 8}
+	end
+
+	def diag_izq_inf(posicion)
+		fila_izq = posicion[0].ord.pred.chr
+			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i - i - 1 }" }.select {|pos| pos[1].to_i >= 1}
+	end
+
+	def diag_izq_inf_min(posicion)
+		fila_izq = posicion[0].ord.pred.chr
+			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i - i - 1 }" }.select {|pos| pos[1].to_i == posicion[1].to_i - 1 && pos[1].to_i >= 1}
 	end
 end
