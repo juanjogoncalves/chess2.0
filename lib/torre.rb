@@ -11,53 +11,15 @@ class Torre < Pieza
 
 	def movimientos_permitidos
 		movimientos = []
-		fila, col = posicion
-
-		if blanca?
-			((col + 1)..7).each_with_index do |col_destino|
-				movimientos << [fila, col_destino] if @tablero.piezas[fila][col_destino].vacia? || @tablero.piezas[fila][col_destino].negra?
-				break unless @tablero.piezas[fila][col_destino].vacia?
+		Tablero.columna_sup(posicion).each do |coordenada|
+			if @tablero[coordenada].vacia?
+				movimientos << coordenada
+			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
+				movimientos << coordenada
+				break
+			else
+				break
 			end
-
-			((col - 1).downto 0).each do |col_destino|
-				movimientos << [fila, col_destino] if @tablero.piezas[fila][col_destino].vacia? || @tablero.piezas[fila][col_destino].negra?
-				break unless @tablero.piezas[fila][col_destino].vacia?
-			end
-
-			((Fila.new(fila).der)..:h).each do |fila_destino|
-				movimientos << [fila_destino, col] if @tablero.piezas[fila_destino][col].vacia? || @tablero.piezas[fila_destino][col].negra?
-				break unless @tablero.piezas[fila_destino][col].vacia?
-			end
-
-			(:a..(Fila.new(fila).izq)).reverse_each do |fila_destino|
-				movimientos << [fila_destino, col] if @tablero.piezas[fila_destino][col].vacia? || @tablero.piezas[fila_destino][col].negra?
-				break unless @tablero.piezas[fila_destino][col].vacia?
-			end
-		
-		else
-
-			if negra?
-			((col + 1)..7).each do |col_destino|
-				movimientos << [fila, col_destino] if @tablero.piezas[fila][col_destino].vacia? || @tablero.piezas[fila][col_destino].blanca?
-				break unless @tablero.piezas[fila][col_destino].vacia?
-			end
-
-			((col - 1).downto 0).each do |col_destino|
-				movimientos << [fila, col_destino] if @tablero.piezas[fila][col_destino].vacia? || @tablero.piezas[fila][col_destino].blanca?
-				break unless @tablero.piezas[fila][col_destino].vacia?
-			end
-
-			((Fila.new(fila).der)..:h).each do |fila_destino|
-				movimientos << [fila_destino, col] if @tablero.piezas[fila_destino][col].vacia? || @tablero.piezas[fila_destino][col].blanca?
-				break unless @tablero.piezas[fila_destino][col].vacia?
-			end
-
-			(:a..(Fila.new(fila).izq)).reverse_each do |fila_destino|
-				movimientos << [fila_destino, col] if @tablero.piezas[fila_destino][col].vacia? || @tablero.piezas[fila_destino][col].blanca?
-				break unless @tablero.piezas[fila_destino][col].vacia?
-			end
-		end
-
 		end
 		movimientos
 	end

@@ -9,69 +9,27 @@ class Rey < Pieza
 			end
 	end
 
-	def movimientos_permitidos
-		movimientos = []
-		fila, col = posicion
-		if blanca? 
-
-				if fila < :h
-					movimientos << [Fila.new(fila).der, col] unless @tablero.piezas[Fila.new(fila).der][col].blanca? 
+	def adjacentes(posicion)
+		desde_fila = [posicion[0].ord.pred.chr, 'a'].max
+		hasta_fila = [posicion[0].next, 'h'].min
+		desde_col  = [posicion[1].to_i - 1, 1].max
+		hasta_col  = [posicion[1].to_i + 1, 8].min
+		
+		adjacentes = []
+		(desde_fila..hasta_fila).each do |new_fila|
+			(desde_col..hasta_col).each do |new_columna|				
+				unless (new_fila == posicion[0] && new_columna == posicion[1].to_i)
+					adjacentes << "#{new_fila}#{new_columna}"
 				end
-				if fila > :a
-					movimientos << [Fila.new(fila).izq, col] unless @tablero.piezas[Fila.new(fila).izq][col].blanca? 
-				end
-				if col < 7
-					movimientos << [fila, col + 1] unless @tablero.piezas[fila][col + 1].blanca? 
-				end
-				if col > 0
-					movimientos << [fila, col - 1] unless @tablero.piezas[fila][col - 1].blanca? 
-				end
-				if col < 7	&& fila > :a 	
-					movimientos << [Fila.new(fila).izq, col + 1] unless @tablero.piezas[Fila.new(fila).izq][col + 1].blanca?
-				end
-				if col < 7 && fila < :h
-					movimientos << [Fila.new(fila).der, col + 1] unless @tablero.piezas[Fila.new(fila).der][col + 1].blanca?
-				end
-				if col > 0 && fila > :a 
-					movimientos << [Fila.new(fila).izq, col - 1] unless @tablero.piezas[Fila.new(fila).izq][col - 1].blanca? 
-				end
-				if col > 0 && fila < :h
-						movimientos << [Fila.new(fila).der, col - 1] unless @tablero.piezas[Fila.new(fila).der][col - 1].blanca? 
-				end
-				
-				
-			else
-	
-			if negra?
-				
-				if fila < :h
-					movimientos << [Fila.new(fila).der, col] unless @tablero.piezas[Fila.new(fila).der][col].negra? 
-				end
-				if fila > :a
-					movimientos << [Fila.new(fila).izq, col] unless @tablero.piezas[Fila.new(fila).izq][col].negra? 
-				end
-				if col < 7
-					movimientos << [fila, col + 1] unless @tablero.piezas[fila][col + 1].negra? 
-				end
-				if col > 0
-					movimientos << [fila, col - 1] unless @tablero.piezas[fila][col - 1].negra? 
-				end
-				if col < 7	&& fila > :a 	
-					movimientos << [Fila.new(fila).izq, col + 1] unless @tablero.piezas[Fila.new(fila).izq][col + 1].negra?
-				end
-				if col < 7 && fila < :h
-					movimientos << [Fila.new(fila).der, col + 1] unless @tablero.piezas[Fila.new(fila).der][col + 1].negra?
-				end
-				if col > 0 && fila > :a 
-					movimientos << [Fila.new(fila).izq, col - 1] unless @tablero.piezas[Fila.new(fila).izq][col - 1].negra? 
-				end
-				if col > 0 && fila < :h
-						movimientos << [Fila.new(fila).der, col - 1] unless @tablero.piezas[Fila.new(fila).der][col - 1].negra? 
-				end
-				
 			end
 		end
-		movimientos
+		adjacentes
 	end	
 
+	def movimientos_permitidos
+		adjacentes(posicion).select do |coordenadas|
+			posicion = @tablero[coordenadas]
+			posicion.vacia? || (blanca? && posicion.negra?) || (negra? && posicion.blanca?)
+		end
+	end	
 end

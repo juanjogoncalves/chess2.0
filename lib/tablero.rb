@@ -4,8 +4,9 @@ require_relative "peon"
 require_relative "torre"
 require_relative "alfil"
 require_relative "caballo"
-require_relative "dama"
 require_relative "rey"
+require_relative "dama"
+
 
 class Tablero	
 	
@@ -49,8 +50,8 @@ class Tablero
 		self['g1'] = Caballo.new(:blanco)		
 		self['c1'] = Alfil.new(:blanco)
 		self['f1'] = Alfil.new(:blanco)
-    self["d1"] = Dama.new(:blanco)
-    self["e1"] = Rey.new(:blanco)
+    self['d1'] = Dama.new(:blanco)
+    self['e1'] = Rey.new(:blanco)
 
 		self['a8'] = Torre.new(:negro)
 		self['h8'] = Torre.new(:negro)
@@ -58,8 +59,8 @@ class Tablero
 		self['g8'] = Caballo.new(:negro)		
 		self['c8'] = Alfil.new(:negro)
 		self['f8'] = Alfil.new(:negro)		
-    self["d8"] = Dama.new(:negro)
-    self["e8"] = Rey.new(:negro)
+    self['d8'] = Dama.new(:negro)
+    self['e8'] = Rey.new(:negro)
 	end
 
 	def dibujar
@@ -90,56 +91,59 @@ class Tablero
 		end
 	end
 
-	def columna(posicion)		
+	def self.columna_sup(posicion)
+
+	end
+
+	def self.columna_inf(posicion)
+
+	end
+
+	def self.columna(posicion)
+		self.columna_sup(posicion) + self.columna_inf(posicion)
+	end
+
+	def self.columna(posicion)		
 		('a'..'h').select { |fila| fila != posicion[0] }.map { |fila| "#{fila}#{posicion[1]}" }
 	end
 
-	def columna_min(posicion)	
-	fila_izq = posicion[0].ord.pred.chr	
-		('a'..'h').select { |fila| fila != posicion[0] }.map { |fila| "#{fila}#{posicion[1]}" }.select {|pos| pos[0] == posicion[0].next || pos[0] == fila_izq }
-	end
-
-	def fila(posicion)
+	def self.fila(posicion)
 		(1..8).reject { |col| (col.to_s == posicion[1]) }.map { |col| "#{posicion[0]}#{col}" }
 	end
 
-	def fila_min(posicion)
-		(1..8).reject { |col| (col.to_s == posicion[1]) }.map { |col| "#{posicion[0]}#{col}" }.select {|pos| pos[1].to_i == posicion[1].to_i + 1 || pos[1].to_i == posicion[1].to_i - 1 }
-	end
-
-	def diag_der_sup(posicion)
+	def self.diag_der_sup(posicion)
 		(posicion[0].next..'h').map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1}" }.select {|pos| pos[1].to_i <= 8}
 	end
 
-	def diag_der_sup_min(posicion)
-		(posicion[0].next..'h').map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1}" }.select {|pos| pos[1].to_i == posicion[1].to_i + 1 && pos[1].to_i <= 8}
-	end
-
-	def diag_der_inf(posicion)
+	def self.diag_der_inf(posicion)
 		(posicion[0].next..'h').map.with_index { |fila, i|  "#{fila}#{posicion[1].to_i - i - 1}" }.select {|pos| pos[1].to_i >= 1}
 	end
 
-	def diag_der_inf_min(posicion)
-		(posicion[0].next..'h').map.with_index { |fila, i|  "#{fila}#{posicion[1].to_i - i - 1}" }.select {|pos| pos[1].to_i == posicion[1].to_i - 1 && pos[1].to_i >= 1}
-	end
-
-	def diag_izq_sup(posicion)
+	def self.diag_izq_sup(posicion)
 		fila_izq = posicion[0].ord.pred.chr
 			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1 }" }.select {|pos| pos[1].to_i <= 8}
 	end
 
-	def diag_izq_sup_min(posicion)
-		fila_izq = posicion[0].ord.pred.chr
-			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1 }" }.select {|pos| pos[1].to_i == posicion[1].to_i + 1 && pos[1].to_i <= 8}
-	end
-
-	def diag_izq_inf(posicion)
+	def self.diag_izq_inf(posicion)
 		fila_izq = posicion[0].ord.pred.chr
 			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i - i - 1 }" }.select {|pos| pos[1].to_i >= 1}
 	end
 
-	def diag_izq_inf_min(posicion)
-		fila_izq = posicion[0].ord.pred.chr
-			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i - i - 1 }" }.select {|pos| pos[1].to_i == posicion[1].to_i - 1 && pos[1].to_i >= 1}
-	end
+=begin	def self.adjacentes(posicion)
+		desde_fila = [posicion[0].ord.pred.chr, 'a'].max
+		hasta_fila = [posicion[0].next, 'h'].min
+		desde_col  = [posicion[1].to_i - 1, 1].max
+		hasta_col  = [posicion[1].to_i + 1, 8].min
+		
+		adjacentes = []
+		(desde_fila..hasta_fila).each do |new_fila|
+			(desde_col..hasta_col).each do |new_columna|				
+				unless (new_fila == posicion[0] && new_columna == posicion[1].to_i)
+					adjacentes << "#{new_fila}#{new_columna}"
+				end
+			end
+		end
+		adjacentes
+	end	
+=end
 end

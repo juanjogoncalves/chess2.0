@@ -24,20 +24,18 @@ class Peon < Pieza
 				movimientos << [Fila.new(fila).izq, col + 1]
 			end
 
-		else
-			if negra?
-				
-				movimientos << [fila, col - 1] if @tablero.piezas[fila][col - 1].vacia?
-				movimientos << [fila, col - 2] if col == 6 && @tablero.piezas[fila][col - 2].vacia? && @tablero.piezas[fila][col - 1].vacia?
+		elsif negra?
+			
+			movimientos << [fila, col - 1] if @tablero.piezas[fila][col - 1].vacia?
+			movimientos << [fila, col - 2] if col == 6 && @tablero.piezas[fila][col - 2].vacia? && @tablero.piezas[fila][col - 1].vacia?
 
-				if fila < :h && col > 0 && @tablero.piezas[Fila.new(fila).der][col - 1].blanca?
-					movimientos << [Fila.new(fila).der, col - 1]
-				end
-				if fila > :a && col > 0 && @tablero.piezas[Fila.new(fila).izq][col - 1].blanca? 
-					movimientos << [Fila.new(fila).izq, col - 1] 
-				end
-
+			if fila < :h && col > 0 && @tablero.piezas[Fila.new(fila).der][col - 1].blanca?
+				movimientos << [Fila.new(fila).der, col - 1]
 			end
+			if fila > :a && col > 0 && @tablero.piezas[Fila.new(fila).izq][col - 1].blanca? 
+				movimientos << [Fila.new(fila).izq, col - 1] 
+			end
+			
 		end
 		movimientos
 	end	

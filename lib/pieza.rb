@@ -1,14 +1,16 @@
 class Pieza
 	attr_accessor :tablero
-
+	
 	def initialize(color)
 		@color = color
 	end
 
+
 	def posicion
-		@tablero.piezas.each_pair do |fila, columnas|
-			columnas.each_with_index do |pieza, columna|
-				return [fila, columna ] if pieza == self
+		('a'..'h').each do |fila|
+			(1..8).each do |col|			
+				coordenadas = "#{fila}#{col}"
+				return coordenadas if @tablero[coordenadas] == self
 			end
 		end
 	end
@@ -24,4 +26,7 @@ class Pieza
 	def negra?
 		@color == :negro
 	end
+
+
+
 end
