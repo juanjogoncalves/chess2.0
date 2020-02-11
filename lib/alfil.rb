@@ -11,66 +11,47 @@ class Alfil < Pieza
 
 	def movimientos_permitidos
 		movimientos = []
-		fila, col = posicion
-
-		if blanca?
-			
-			((Fila.new(fila).der)..:h).each_with_index do |fila_destino,i|
-				i= i + 1					
-				movimientos << [fila_destino, col + i] if @tablero.piezas[fila_destino][col+i ].vacia? || @tablero.piezas[fila_destino][col+i].negra?
-				break unless @tablero.piezas[fila_destino][col + i].vacia?
+		Tablero.diag_der_inf(posicion).each do |coordenada|
+			if @tablero[coordenada].vacia?
+				movimientos << coordenada
+			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
+				movimientos << coordenada
+				break
+			else
+				break
 			end
-
-			((Fila.new(fila).der)..:h).each_with_index do |fila_destino,i|
-				i= i + 1					
-				movimientos << [fila_destino, col - i] if @tablero.piezas[fila_destino][col-i ].vacia? || @tablero.piezas[fila_destino][col-i].negra?
-				break unless @tablero.piezas[fila_destino][col - i].vacia?
-			end
-
-			(:a..(Fila.new(fila).izq)).reverse_each.with_index do |fila_destino,i|
-				i= i + 1					
-				movimientos << [fila_destino, col - i] if @tablero.piezas[fila_destino][col-i ].vacia? || @tablero.piezas[fila_destino][col-i].negra?
-				break unless @tablero.piezas[fila_destino][col - i].vacia?
-			end
-
-			(:a..(Fila.new(fila).izq)).reverse_each.with_index do |fila_destino,i|
-				i= i + 1					
-				movimientos << [fila_destino, col + i] if @tablero.piezas[fila_destino][col+i ].vacia? || @tablero.piezas[fila_destino][col+i].negra?
-				break unless @tablero.piezas[fila_destino][col + i].vacia?
-			end
-
-					
-		else	
-			
-			if negra?
-			
-				((Fila.new(fila).der)..:h).each_with_index do |fila_destino,i|
-					i= i + 1					
-					movimientos << [fila_destino, col + i] if @tablero.piezas[fila_destino][col+i ].vacia? || @tablero.piezas[fila_destino][col+i].blanca?
-					break unless @tablero.piezas[fila_destino][col + i].vacia?
-				end
-
-				((Fila.new(fila).der)..:h).each_with_index do |fila_destino,i|
-					i= i + 1					
-					movimientos << [fila_destino, col - i] if @tablero.piezas[fila_destino][col-i ].vacia? || @tablero.piezas[fila_destino][col-i].blanca?
-					break unless @tablero.piezas[fila_destino][col - i].vacia?
-				end
-
-				(:a..(Fila.new(fila).izq)).reverse_each.with_index do |fila_destino,i|
-					i= i + 1					
-					movimientos << [fila_destino, col - i] if @tablero.piezas[fila_destino][col-i ].vacia? || @tablero.piezas[fila_destino][col-i].blanca?
-					break unless @tablero.piezas[fila_destino][col - i].vacia?
-				end
-
-				(:a..(Fila.new(fila).izq)).reverse_each.with_index do |fila_destino,i|
-					i= i + 1					
-					movimientos << [fila_destino, col + i] if @tablero.piezas[fila_destino][col+i ].vacia? || @tablero.piezas[fila_destino][col+i].blanca?
-					break unless @tablero.piezas[fila_destino][col + i].vacia?
-				end
-			
-			end
-		
 		end
+		Tablero.diag_der_sup(posicion).each do |coordenada|
+			if @tablero[coordenada].vacia?
+				movimientos << coordenada
+			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
+				movimientos << coordenada
+				break
+			else
+				break
+			end
+		end
+		Tablero.diag_izq_inf(posicion).each do |coordenada|
+			if @tablero[coordenada].vacia?
+				movimientos << coordenada
+			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
+				movimientos << coordenada
+				break
+			else
+				break
+			end
+		end
+		Tablero.diag_izq_sup(posicion).each do |coordenada|
+			if @tablero[coordenada].vacia?
+				movimientos << coordenada
+			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
+				movimientos << coordenada
+				break
+			else
+				break
+			end
+		end
+		
 		movimientos
 	end
 

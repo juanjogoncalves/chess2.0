@@ -11,7 +11,7 @@ class Torre < Pieza
 
 	def movimientos_permitidos
 		movimientos = []
-		Tablero.columna_sup(posicion).each do |coordenada|
+		Tablero.columna_izq(posicion).each do |coordenada|
 			if @tablero[coordenada].vacia?
 				movimientos << coordenada
 			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
@@ -21,6 +21,38 @@ class Torre < Pieza
 				break
 			end
 		end
+		Tablero.columna_der(posicion).each do |coordenada|
+			if @tablero[coordenada].vacia?
+				movimientos << coordenada
+			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
+				movimientos << coordenada
+				break
+			else
+				break
+			end
+		end			
+		Tablero.fila_sup(posicion).each do |coordenada|
+			if @tablero[coordenada].vacia?
+				movimientos << coordenada
+			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
+				movimientos << coordenada
+				break
+			else
+				break
+			end
+		end
+		Tablero.fila_inf(posicion).each do |coordenada|
+			if @tablero[coordenada].vacia?
+				movimientos << coordenada
+			elsif (blanca? && @tablero[coordenada].negra?) || (negra? && @tablero[coordenada].blanca?)
+				movimientos << coordenada
+				break
+			else
+				break
+			end
+		end
+		
 		movimientos
 	end
+
 end

@@ -91,24 +91,29 @@ class Tablero
 		end
 	end
 
-	def self.columna_sup(posicion)
-
+	def self.columna_izq(posicion)
+		fila_izq = posicion[0].ord.pred.chr
+		('a'..fila_izq).to_a.reverse.map {|col| "#{col}#{posicion[1]}"}
 	end
 
-	def self.columna_inf(posicion)
-
+	def self.columna_der(posicion)
+		(posicion[0].next..'h').map {|col| "#{col}#{posicion[1].to_i}"}
 	end
 
 	def self.columna(posicion)
-		self.columna_sup(posicion) + self.columna_inf(posicion)
-	end
-
-	def self.columna(posicion)		
-		('a'..'h').select { |fila| fila != posicion[0] }.map { |fila| "#{fila}#{posicion[1]}" }
+		self.columna_izq(posicion) + self.columna_der(posicion)
 	end
 
 	def self.fila(posicion)
-		(1..8).reject { |col| (col.to_s == posicion[1]) }.map { |col| "#{posicion[0]}#{col}" }
+		self.fila_sup(posicion) + self.fila_inf(posicion)
+	end
+
+	def self.fila_sup(posicion)
+		(posicion[1].to_i+1..8).map { |fil| "#{posicion[0]}#{fil.to_s}" }
+	end
+
+	def self.fila_inf(posicion)
+		(1..posicion[1].to_i-1).to_a.reverse.map { |fil| "#{posicion[0]}#{fil.to_s}" }
 	end
 
 	def self.diag_der_sup(posicion)
@@ -129,7 +134,7 @@ class Tablero
 			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i - i - 1 }" }.select {|pos| pos[1].to_i >= 1}
 	end
 
-=begin	def self.adjacentes(posicion)
+	def self.adjacentes(posicion)
 		desde_fila = [posicion[0].ord.pred.chr, 'a'].max
 		hasta_fila = [posicion[0].next, 'h'].min
 		desde_col  = [posicion[1].to_i - 1, 1].max
@@ -145,5 +150,4 @@ class Tablero
 		end
 		adjacentes
 	end	
-=end
 end
