@@ -11,31 +11,30 @@ class Peon < Pieza
 
 	def movimientos_permitidos
 		movimientos = []
-		fila, col = posicion
+		ant = posicion[0].ord.pred.chr
 		if blanca?
-			
-			movimientos << [fila, col + 1] if @tablero.piezas[fila][col + 1].vacia?
-			movimientos << [fila, col + 2] if col == 1 && @tablero.piezas[fila][col + 2].vacia? && @tablero.piezas[fila][col + 1].vacia?
-
-			if fila < :h && col < 7 && @tablero.piezas[Fila.new(fila).der][col + 1].negra?
-				movimientos << [Fila.new(fila).der, col + 1]
+		
+			movimientos << "#{posicion[0]}#{posicion[1].to_i+1}" if @tablero["#{posicion[0]}#{posicion[1].to_i+1}"].vacia?
+			movimientos << "#{posicion[0]}#{posicion[1].to_i+2}" if @tablero["#{posicion[0]}#{posicion[1].to_i+1}"].vacia? 
+																															&& tablero["#{posicion[0]}#{posicion[1].to_i-2}"].vacia? 
+			if posicion[0] < 'h' && posicion[1].to_i < 8 && @tablero["#{posicion[0].next}#{posicion[1].to_i+1}"].negra?
+				movimientos << "#{posicion[0].next}#{posicion[1].to_i+1}"
 			end
-			if fila > :a && col < 7 && @tablero.piezas[Fila.new(fila).izq][col + 1].negra?
-				movimientos << [Fila.new(fila).izq, col + 1]
+			if posicion[0] > 'a' && posicion[1].to_i < 8 && @tablero["#{ant}#{posicion[1].to_i+1}"].negra?
+				movimientos << "#{ant}#{posicion[1].to_i+1}"
 			end
 
 		elsif negra?
 			
-			movimientos << [fila, col - 1] if @tablero.piezas[fila][col - 1].vacia?
-			movimientos << [fila, col - 2] if col == 6 && @tablero.piezas[fila][col - 2].vacia? && @tablero.piezas[fila][col - 1].vacia?
-
-			if fila < :h && col > 0 && @tablero.piezas[Fila.new(fila).der][col - 1].blanca?
-				movimientos << [Fila.new(fila).der, col - 1]
+			movimientos << "#{posicion[0]}#{posicion[1].to_i-1}" if @tablero["#{posicion[0]}#{posicion[1].to_i-1}"].vacia?
+			movimientos << "#{posicion[0]}#{posicion[1].to_i-2}" if @tablero["#{posicion[0]}#{posicion[1].to_i-1}"].vacia? 
+																														&& tablero["#{posicion[0]}#{posicion[1].to_i-2}"].vacia? 
+			if posicion[0] < 'h' && posicion[1].to_i < 8 && @tablero["#{posicion[0].next}#{posicion[1].to_i-1}"].blanca?
+				movimientos << "#{posicion[0].next}#{posicion[1].to_i-1}"
 			end
-			if fila > :a && col > 0 && @tablero.piezas[Fila.new(fila).izq][col - 1].blanca? 
-				movimientos << [Fila.new(fila).izq, col - 1] 
+			if posicion[0] > 'a' && posicion[1].to_i < 8 && @tablero["#{ant}#{posicion[1].to_i+1}"].blanca?
+				movimientos << "#{ant}#{posicion[1].to_i-1}"
 			end
-			
 		end
 		movimientos
 	end	

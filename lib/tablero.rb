@@ -91,6 +91,14 @@ class Tablero
 		end
 	end
 
+	def limpia_marcar
+		('a'..'h').each do |col|
+			(1..8).each do |fila|
+				self["#{col}#{fila}"].marcar = false if self["#{col}#{fila}"].vacia?
+			end
+		end
+	end
+
 	def self.columna_izq(posicion)
 		fila_izq = posicion[0].ord.pred.chr
 		('a'..fila_izq).to_a.reverse.map {|col| "#{col}#{posicion[1]}"}
@@ -150,4 +158,5 @@ class Tablero
 		end
 		adjacentes
 	end	
+
 end
