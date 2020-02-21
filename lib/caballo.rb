@@ -11,61 +11,44 @@ class Caballo < Pieza
 
 	def movimientos_permitidos
 		movimientos = []
-		fila, col = posicion
+		col = posicion[0]
+		fila = posicion[1].to_i
+		ant = posicion[0].ord.pred.chr
+		ant_m = posicion[0].ord.pred.pred.chr
 		
-		if blanca?
-			if fila < :h && col < 6
-				movimientos << [Fila.new(fila).der, col + 2] unless @tablero.piezas[Fila.new(fila).der][col + 2].blanca?
+		if blanca? || negra?
+			if col < 'h' && fila < 6
+				ubicacion = @tablero["#{col.next}#{fila + 2}"]
+				movimientos << "#{col.next}#{fila + 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if fila < :h && col > 1
-				movimientos << [Fila.new(fila).der, col - 2] unless @tablero.piezas[Fila.new(fila).der][col - 2].blanca?
+			if col < 'h' && fila > 1
+				ubicacion = @tablero["#{col.next}#{fila - 2}"]
+				movimientos << "#{col.next}#{fila - 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if fila < :g && col < 7
-				movimientos << [Fila.new(fila).der_plus, col + 1] unless @tablero.piezas[Fila.new(fila).der_plus][col + 1].blanca?
+			if col < 'g' && fila < 7
+				ubicacion = @tablero["#{col.next.next}#{fila + 1}"]
+				movimientos << "#{col.next.next}#{fila + 1}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if fila < :g && col > 0
-				movimientos << [Fila.new(fila).der_plus, col - 1] unless @tablero.piezas[Fila.new(fila).der_plus][col - 1].blanca?
+			if col < 'g' && fila > 1
+				ubicacion = @tablero["#{col.next.next}#{fila - 1}"]
+				movimientos << "#{col.next.next}#{fila - 1}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?) 
 			end
-			if fila > :a && col < 6
-				movimientos << [Fila.new(fila).izq, col + 2] unless @tablero.piezas[Fila.new(fila).izq][col + 2].blanca?
+			if col > 'a' && fila < 6
+				ubicacion = @tablero["#{ant}#{fila + 2}"]
+				movimientos << "#{ant}#{fila + 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if fila > :a && col > 1
-				movimientos << [Fila.new(fila).izq, col - 2] unless @tablero.piezas[Fila.new(fila).izq][col - 2].blanca?
+			if col > 'a' && fila > 1
+				ubicacion = @tablero["#{ant}#{fila - 2}"]
+				movimientos << "#{ant}#{fila - 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if fila > :b && col < 7
-				movimientos << [Fila.new(fila).izq_plus, col + 1] unless @tablero.piezas[Fila.new(fila).izq_plus][col + 1].blanca?
+			if col > 'b' && fila < 7
+				ubicacion = @tablero["#{ant_m}#{fila + 1}"]
+				movimientos << "#{ant_m}#{fila + 1}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?) 
 			end
-			if fila > :b && col > 0
-				movimientos << [Fila.new(fila).izq_plus, col - 1] unless @tablero.piezas[Fila.new(fila).izq_plus][col - 1].blanca?
+			if col > 'b' && fila > 1
+				ubicacion = @tablero["#{ant_m}#{fila - 1}"]
+				movimientos << "#{ant_m}#{fila - 1}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			
-		else
-			if negra?
-						if fila < :h && col < 6
-							movimientos << [Fila.new(fila).der, col + 2] unless @tablero.piezas[Fila.new(fila).der][col + 2].negra?
-						end
-						if fila < :h && col > 1
-							movimientos << [Fila.new(fila).der, col - 2] unless @tablero.piezas[Fila.new(fila).der][col - 2].negra?
-						end
-						if fila < :g && col < 7
-							movimientos << [Fila.new(fila).der_plus, col + 1] unless @tablero.piezas[Fila.new(fila).der_plus][col + 1].negra?
-						end
-						if fila < :g && col > 0
-							movimientos << [Fila.new(fila).der_plus, col - 1] unless @tablero.piezas[Fila.new(fila).der_plus][col - 1].negra?
-						end
-						if fila > :a && col < 6
-							movimientos << [Fila.new(fila).izq, col + 2] unless @tablero.piezas[Fila.new(fila).izq][col + 2].negra?
-						end
-						if fila > :a && col > 1
-							movimientos << [Fila.new(fila).izq, col - 2] unless @tablero.piezas[Fila.new(fila).izq][col - 2].negra?
-						end
-						if fila > :b && col < 7
-							movimientos << [Fila.new(fila).izq_plus, col + 1] unless @tablero.piezas[Fila.new(fila).izq_plus][col + 1].negra?
-						end
-						if fila > :b && col > 0
-							movimientos << [Fila.new(fila).izq_plus, col - 1] unless @tablero.piezas[Fila.new(fila).izq_plus][col - 1].negra?
-						end
-			end		
 		end
 		movimientos
 	end	

@@ -21,6 +21,7 @@ class Alfil < Pieza
 				break
 			end
 		end
+
 		Tablero.diag_der_sup(posicion).each do |coordenada|
 			if @tablero[coordenada].vacia?
 				movimientos << coordenada
@@ -31,6 +32,7 @@ class Alfil < Pieza
 				break
 			end
 		end
+
 		Tablero.diag_izq_inf(posicion).each do |coordenada|
 			if @tablero[coordenada].vacia?
 				movimientos << coordenada
@@ -41,6 +43,7 @@ class Alfil < Pieza
 				break
 			end
 		end
+		
 		Tablero.diag_izq_sup(posicion).each do |coordenada|
 			if @tablero[coordenada].vacia?
 				movimientos << coordenada

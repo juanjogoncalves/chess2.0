@@ -1,4 +1,4 @@
-class PiezaVacia
+class PiezaVacia 
 	attr_accessor :tablero, :marcar
 
 	def dibujar

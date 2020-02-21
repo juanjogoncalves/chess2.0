@@ -1,11 +1,11 @@
 require_relative "pieza"
 require_relative "pieza_vacia"
-require_relative "peon"
 require_relative "torre"
 require_relative "alfil"
 require_relative "caballo"
 require_relative "rey"
 require_relative "dama"
+require_relative "peon"
 
 
 class Tablero	
@@ -125,7 +125,7 @@ class Tablero
 	end
 
 	def self.diag_der_sup(posicion)
-		(posicion[0].next..'h').map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1}" }.select {|pos| pos[1].to_i <= 8}
+		(posicion[0].next..'h').map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1}" }.select {|pos| pos[1].to_i <= 8 && pos.size == 2}
 	end
 
 	def self.diag_der_inf(posicion)
@@ -134,7 +134,7 @@ class Tablero
 
 	def self.diag_izq_sup(posicion)
 		fila_izq = posicion[0].ord.pred.chr
-			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1 }" }.select {|pos| pos[1].to_i <= 8}
+			('a'..fila_izq).to_a.reverse.map.with_index { |fila, i| "#{fila}#{posicion[1].to_i + i + 1 }" }.select {|pos| pos[1].to_i <= 8 && pos.size == 2}
 	end
 
 	def self.diag_izq_inf(posicion)
@@ -158,5 +158,16 @@ class Tablero
 		end
 		adjacentes
 	end	
+
+	def movimiento(jugada)
+		('a'..'h').each do |col|
+			(1..8).each do |fila|
+				puts self["#{col}#{fila}"]
+					unless self["#{col}#{fila}"].vacia?
+						puts 'encontrada' if self["#{col}#{fila}"].movimientos_permitidos.include?(jugada)
+					end
+			end
+		end
+  end
 
 end

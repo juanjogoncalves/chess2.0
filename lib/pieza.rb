@@ -14,7 +14,8 @@ class Pieza
 			end
 		end
 	end
-	
+
+		
 	def vacia?
 		false
 	end
@@ -26,7 +27,5 @@ class Pieza
 	def negra?
 		@color == :negro
 	end
-
-
-
+	
 end

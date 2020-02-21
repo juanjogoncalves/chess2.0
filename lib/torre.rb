@@ -51,7 +51,6 @@ class Torre < Pieza
 				break
 			end
 		end
-		
 		movimientos
 	end
 
