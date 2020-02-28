@@ -1,6 +1,10 @@
 class Dama < Pieza
 	CHAR = '♛'
 
+	def notacion?
+		'Q'
+	end
+
 	def dibujar
 		if blanca?
 			"\e[39m#{CHAR}\e[0m"

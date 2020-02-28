@@ -1,6 +1,10 @@
 class Caballo < Pieza
 	CHAR = '♞'
 
+	def notacion?
+		'N'
+	end
+
 	def dibujar
 		if blanca?
 			"\e[39m#{CHAR}\e[0m"

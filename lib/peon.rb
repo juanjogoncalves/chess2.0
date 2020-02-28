@@ -1,6 +1,10 @@
 class Peon < Pieza
 	CHAR = '♟'
 
+	def notacion?
+			"g"
+	end
+
 	def dibujar
 		if blanca?
 			"\e[39m#{CHAR}\e[0m"
@@ -28,7 +32,7 @@ class Peon < Pieza
 			elsif negra?
 			
 			movimientos << "#{col}#{fila-1}" if @tablero["#{col}#{fila-1}"].vacia?
-			movimientos << "#{col}#{fila-2}" if @tablero["#{col}#{fila-1}"].vacia? && tablero["#{col}#{fila+2}"].vacia? if fila == 2 
+			movimientos << "#{col}#{fila-2}" if @tablero["#{col}#{fila-1}"].vacia? && tablero["#{col}#{fila-2}"].vacia? if fila == 7 
 			if col < 'h' && fila > 1 && @tablero["#{col.next}#{fila-1}"].blanca?
 				movimientos << "#{col.next}#{fila-1}"
 			end

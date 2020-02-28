@@ -1,6 +1,10 @@
 class Alfil < Pieza
 	CHAR = '♝'
 
+	def notacion?
+		'B'
+	end
+
 	def dibujar
 		if blanca?
 			"\e[39m#{CHAR}\e[0m"

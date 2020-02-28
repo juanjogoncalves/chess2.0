@@ -1,5 +1,9 @@
 class Torre < Pieza
 	CHAR = '♜'
+
+	def notacion?
+		'R'
+	end
 	
 	def dibujar
 		if blanca?

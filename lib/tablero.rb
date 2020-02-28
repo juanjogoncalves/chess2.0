@@ -157,15 +157,22 @@ class Tablero
 			end
 		end
 		adjacentes
-	end	
+	end
 
-	def movimiento(jugada)
+	def pieza_origen(jugada)
+		piezas = []
+		xy = "#{jugada[-2]}#{jugada[-1]}"
 		('a'..'h').each do |col|
 			(1..8).each do |fila|
-				puts self["#{col}#{fila}"]
 					unless self["#{col}#{fila}"].vacia?
-						puts 'encontrada' if self["#{col}#{fila}"].movimientos_permitidos.include?(jugada)
+						piezas << "#{self["#{col}#{fila}"].posicion}" if self["#{col}#{fila}"].movimientos_permitidos.include?(xy) 
 					end
+			end
+		end
+	
+		piezas.each do |pieza| 
+			if @piezas[pieza].notacion? == jugada[0]
+				puts @piezas[pieza].posicion
 			end
 		end
   end
