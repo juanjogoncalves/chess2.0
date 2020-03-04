@@ -2,7 +2,7 @@ class Peon < Pieza
 	CHAR = '♟'
 
 	def notacion?
-			"g"
+		' '
 	end
 
 	def dibujar

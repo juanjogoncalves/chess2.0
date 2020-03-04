@@ -161,7 +161,15 @@ class Tablero
 
 	def pieza_origen(jugada)
 		piezas = []
-		xy = "#{jugada[-2]}#{jugada[-1]}"
+		
+		if jugada[-1] == '+' && jugada[-2] == '+'
+			xy = "#{jugada[-4]}#{jugada[-3]}"
+		elsif jugada[-1] == '+'
+			xy = "#{jugada[-3]}#{jugada[-2]}"
+		else					
+			xy = "#{jugada[-2]}#{jugada[-1]}"
+		end
+		
 		('a'..'h').each do |col|
 			(1..8).each do |fila|
 					unless self["#{col}#{fila}"].vacia?
@@ -171,10 +179,18 @@ class Tablero
 		end
 	
 		piezas.each do |pieza| 
-			if @piezas[pieza].notacion? == jugada[0]
+			if jugada[0].match(/[a-h]/)
+				puts @piezas[pieza].posicion if @piezas[pieza].class == Peon
+			elsif @piezas[pieza].notacion? == jugada[0]
 				puts @piezas[pieza].posicion
-			end
+			end				
 		end
   end
+
+  def movimiento(jugada)
+  	origen = @piezas[pieza_origen(jugada)[0]].dibujar
+   	#@piezas[pieza_origen(jugada)[0]] = PiezaVacia.new
+
+ 	end
 
 end
