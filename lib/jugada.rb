@@ -1,6 +1,6 @@
 class Jugada
 
-	attr_accessor :jugador_blanco , :jugador_negro , :tablero
+	attr_accessor :jugador_blanco , :jugador_negro
 
 	def initialize(jugador_blanco:, jugador_negro: nil)
 		@jugador_blanco = jugador_blanco
@@ -10,7 +10,5 @@ class Jugada
   def to_s
     "#{@jugador_blanco} - #{@jugador_negro}"
   end
-
-  
   				
 end

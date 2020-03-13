@@ -1,5 +1,5 @@
 class Pieza
-	attr_accessor :tablero
+	attr_accessor :tablero, :color
 	
 	def initialize(color)
 		@color = color

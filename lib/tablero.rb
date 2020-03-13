@@ -160,8 +160,9 @@ class Tablero
 	end
 
 	def pieza_origen(jugada)
-		piezas = []
-		
+		pos_pieza = []
+		resultado = ''
+	
 		if jugada[-1] == '+' && jugada[-2] == '+'
 			xy = "#{jugada[-4]}#{jugada[-3]}"
 		elsif jugada[-1] == '+'
@@ -173,24 +174,35 @@ class Tablero
 		('a'..'h').each do |col|
 			(1..8).each do |fila|
 					unless self["#{col}#{fila}"].vacia?
-						piezas << "#{self["#{col}#{fila}"].posicion}" if self["#{col}#{fila}"].movimientos_permitidos.include?(xy) 
+						pos_pieza << "#{self["#{col}#{fila}"].posicion}" if self["#{col}#{fila}"].movimientos_permitidos.include?(xy) 
 					end
 			end
 		end
+
+		pos_pieza.each do |pieza| 
 	
-		piezas.each do |pieza| 
-			if jugada[0].match(/[a-h]/)
-				puts @piezas[pieza].posicion if @piezas[pieza].class == Peon
-			elsif @piezas[pieza].notacion? == jugada[0]
-				puts @piezas[pieza].posicion
-			end				
+			resultado << @piezas[pieza].posicion if @piezas[pieza].class == Peon && jugada[0].match(/[a-h]/)
+			
+			resultado << @piezas[pieza].posicion if @piezas[pieza].notacion? == jugada[0] 
+			
 		end
+		resultado
   end
 
   def movimiento(jugada)
-  	origen = @piezas[pieza_origen(jugada)[0]].dibujar
-   	#@piezas[pieza_origen(jugada)[0]] = PiezaVacia.new
+  	
+  	if jugada[-1] == '+' && jugada[-2] == '+'
+			xy = "#{jugada[-4]}#{jugada[-3]}"
+		elsif jugada[-1] == '+'
+			xy = "#{jugada[-3]}#{jugada[-2]}"
+		else					
+			xy = "#{jugada[-2]}#{jugada[-1]}"
+		end
 
- 	end
-
+		p_origen= @piezas[pieza_origen(jugada)]
+		@piezas["#{xy}"] = p_origen.clone
+		self[p_origen.posicion] = PiezaVacia.new
+		 	
+  end
+ 
 end
