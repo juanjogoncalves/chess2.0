@@ -159,7 +159,7 @@ class Tablero
 		adjacentes
 	end
 
-	def pieza_origen(jugada)
+	def pieza_origen(jugada, color)
 		pos_pieza = []
 		resultado = ''
 	
@@ -181,15 +181,15 @@ class Tablero
 
 		pos_pieza.each do |pieza| 
 	
-			resultado << @piezas[pieza].posicion if @piezas[pieza].class == Peon && jugada[0].match(/[a-h]/)
+			resultado << @piezas[pieza].posicion if @piezas[pieza].class == Peon && jugada[0].match(/[a-h]/) && @piezas[pieza].color == color
 			
-			resultado << @piezas[pieza].posicion if @piezas[pieza].notacion? == jugada[0] 
+			resultado << @piezas[pieza].posicion if @piezas[pieza].notacion? == jugada[0] && @piezas[pieza].color == color
 			
 		end
 		resultado
   end
 
-  def movimiento(jugada)
+  def movimiento(t,jugada, color)
   	
   	if jugada[-1] == '+' && jugada[-2] == '+'
 			xy = "#{jugada[-4]}#{jugada[-3]}"
@@ -199,9 +199,10 @@ class Tablero
 			xy = "#{jugada[-2]}#{jugada[-1]}"
 		end
 
-		p_origen= @piezas[pieza_origen(jugada)]
+		p_origen= @piezas[pieza_origen(jugada,color)]
 		@piezas["#{xy}"] = p_origen.clone
 		self[p_origen.posicion] = PiezaVacia.new
+		dibujar
 		 	
   end
  
