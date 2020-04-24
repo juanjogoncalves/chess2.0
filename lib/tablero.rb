@@ -159,6 +159,23 @@ class Tablero
 		adjacentes
 	end
 
+	
+=begin def jaque(jugada,color)
+		resultado = []
+
+		('a'..'h').each do |fil|
+			(1..8).each do |col|
+				unless self["#{fil}#{col}"].vacia?
+					resultado << "#{self["#{fil}#{col}"].posicion}" if self["#{fil}#{col}"].movimientos_permitidos.include?(jugada) && self["#{fil}#{col}"].color != color
+				end
+			end
+		end
+		puts resultado
+		resultado == []
+	end
+=end
+	
+
 	def pieza_origen(jugada, color)
 		pos_pieza = []
 		resultado = ''
@@ -170,6 +187,7 @@ class Tablero
 		else					
 			xy = "#{jugada[-2]}#{jugada[-1]}"
 		end
+	
 		
 		('a'..'h').each do |col|
 			(1..8).each do |fila|
@@ -181,29 +199,76 @@ class Tablero
 
 		pos_pieza.each do |pieza| 
 	
-			resultado << @piezas[pieza].posicion if @piezas[pieza].class == Peon && jugada[0].match(/[a-h]/) && @piezas[pieza].color == color
-			
-			resultado << @piezas[pieza].posicion if @piezas[pieza].notacion? == jugada[0] && @piezas[pieza].color == color
+			if @piezas[pieza].class == Peon && jugada[0] == pieza[0] && @piezas[pieza].color == color
+				resultado << @piezas[pieza].posicion
+			end
+
+			if jugada.size == 4 && jugada[1] != 'x'
+				if @piezas[pieza].notacion? == jugada[0] && @piezas[pieza].color == color && jugada[1] == pieza[0]
+					resultado << @piezas[pieza].posicion
+				end
+			else
+				if @piezas[pieza].notacion? == jugada[0] && @piezas[pieza].color == color
+					resultado << @piezas[pieza].posicion
+				end	
+			end	
 			
 		end
+
 		resultado
+  
   end
 
-  def movimiento(t,jugada, color)
-  	
-  	if jugada[-1] == '+' && jugada[-2] == '+'
-			xy = "#{jugada[-4]}#{jugada[-3]}"
-		elsif jugada[-1] == '+'
-			xy = "#{jugada[-3]}#{jugada[-2]}"
-		else					
-			xy = "#{jugada[-2]}#{jugada[-1]}"
-		end
+  
+  def movimiento(t, jugada, color)
+		
+  		if jugada[-1] == '+' && jugada[-2] == '+'
+						xy = "#{jugada[-4]}#{jugada[-3]}"
+			
+			elsif jugada[-1] == '+'
+						xy = "#{jugada[-3]}#{jugada[-2]}"
+			
+			else					
+						xy = "#{jugada[-2]}#{jugada[-1]}"
+			end
 
-		p_origen= @piezas[pieza_origen(jugada,color)]
-		@piezas["#{xy}"] = p_origen.clone
-		self[p_origen.posicion] = PiezaVacia.new
-		dibujar
-		 	
-  end
- 
+			if jugada == 'O-O'
+  			if color == :negro
+  				self['e8']= PiezaVacia.new
+  				self['h8']= PiezaVacia.new
+  				self['g8']= Rey.new(:negro)
+  				self['f8']= Torre.new(:negro)
+  				dibujar
+  			end
+  			if color == :blanco
+  				self['e1']= PiezaVacia.new
+  				self['h1']= PiezaVacia.new
+  				self['g1']= Rey.new(:blanco)
+  				self['f1']= Torre.new(:blanco)
+  				dibujar
+  			end
+  		
+  		elsif jugada == 'O-O-O'
+  			if color == :negro
+  				self['e8']= PiezaVacia.new
+  				self['a8']= PiezaVacia.new
+  				self['c8']= Rey.new(:negro)
+  				self['d8']= Torre.new(:negro)
+  				dibujar
+  			end
+  			if color == :blanco
+  				self['e1']= PiezaVacia.new
+  				self['a1']= PiezaVacia.new
+  				self['c1']= Rey.new(:blanco)
+  				self['d1']= Torre.new(:blanco)
+  				dibujar
+  			end
+ 			else
+			
+					p_origen= @piezas[pieza_origen(jugada,color)]
+					@piezas["#{xy}"] = p_origen.clone
+					self[p_origen.posicion] = PiezaVacia.new
+					dibujar
+			end
+	end
 end

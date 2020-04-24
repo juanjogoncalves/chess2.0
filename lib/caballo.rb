@@ -21,7 +21,7 @@ class Caballo < Pieza
 		ant_m = posicion[0].ord.pred.pred.chr
 		
 		if blanca? || negra?
-			if col < 'h' && fila < 6
+			if col < 'h' && fila < 7
 				ubicacion = @tablero["#{col.next}#{fila + 2}"]
 				movimientos << "#{col.next}#{fila + 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
@@ -37,7 +37,7 @@ class Caballo < Pieza
 				ubicacion = @tablero["#{col.next.next}#{fila - 1}"]
 				movimientos << "#{col.next.next}#{fila - 1}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?) 
 			end
-			if col > 'a' && fila < 6
+			if col > 'a' && fila < 7
 				ubicacion = @tablero["#{ant}#{fila + 2}"]
 				movimientos << "#{ant}#{fila + 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end

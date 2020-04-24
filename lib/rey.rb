@@ -1,3 +1,5 @@
+require_relative "torre"
+
 class Rey < Pieza
 	CHAR = '♚'
 
@@ -14,7 +16,8 @@ class Rey < Pieza
 	end
 
 	def movimientos_permitidos
-		Tablero.adjacentes(posicion).select do |coordenadas|
+		pos=[]
+		pos =Tablero.adjacentes(posicion).select do |coordenadas|
 			posicion = @tablero[coordenadas]
 			posicion.vacia? || (blanca? && posicion.negra?) || (negra? && posicion.blanca?)
 		end

@@ -25,11 +25,14 @@ File.readlines(ARGV[0]).each do |planilla|
 
   jugadas.each do |terceto|
     break unless STDIN.getch == "\r"
-    puts "#{terceto[0]} #{terceto[1]} #{terceto[2]}"
+
+    puts "#{terceto[0]} #{terceto[1]} ..."
     
-    puts "encontrado: #{t.movimiento(t, terceto[1], :blanco)}"
+    puts "#{t.movimiento(t, terceto[1], :blanco)}"
+
+    puts "#{terceto[0]} ... #{terceto[2]}"
    
-    puts "encontrado: #{t.movimiento(t, terceto[2], :negro)}"
+    puts "#{t.movimiento(t, terceto[2], :negro)}"
     
   end
 end
