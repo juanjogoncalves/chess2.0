@@ -189,6 +189,8 @@ class Tablero
 			if rsp.size == 4 
 				if @piezas[pieza].notacion? == rsp[0] && @piezas[pieza].color == color && rsp[1] == pieza[0]
 					resultado << @piezas[pieza].posicion
+				elsif @piezas[pieza].notacion? == rsp[0] && @piezas[pieza].color == color && rsp[1] == pieza[1]
+					resultado << @piezas[pieza].posicion
 				end
 			end
 			

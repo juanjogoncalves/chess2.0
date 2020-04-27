@@ -25,11 +25,11 @@ class Caballo < Pieza
 				ubicacion = @tablero["#{col.next}#{fila + 2}"]
 				movimientos << "#{col.next}#{fila + 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if col < 'h' && fila > 1
+			if col < 'h' && fila > 2
 				ubicacion = @tablero["#{col.next}#{fila - 2}"]
 				movimientos << "#{col.next}#{fila - 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if col < 'g' && fila < 7
+			if col < 'g' && fila < 8
 				ubicacion = @tablero["#{col.next.next}#{fila + 1}"]
 				movimientos << "#{col.next.next}#{fila + 1}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
@@ -41,11 +41,11 @@ class Caballo < Pieza
 				ubicacion = @tablero["#{ant}#{fila + 2}"]
 				movimientos << "#{ant}#{fila + 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if col > 'a' && fila > 1
+			if col > 'a' && fila > 2
 				ubicacion = @tablero["#{ant}#{fila - 2}"]
 				movimientos << "#{ant}#{fila - 2}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?)
 			end
-			if col > 'b' && fila < 7
+			if col > 'b' && fila < 8
 				ubicacion = @tablero["#{ant_m}#{fila + 1}"]
 				movimientos << "#{ant_m}#{fila + 1}" if ubicacion.vacia? || (blanca? && ubicacion.negra?) || (negra? && ubicacion.blanca?) 
 			end
